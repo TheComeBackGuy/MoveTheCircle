@@ -4,7 +4,8 @@ import "./styles.css";
 let theCircle = document.getElementById("circle");
 let speed = 1;
 let frameRate = 10;
-let myDirection = "left";
+let myHorz = "left";
+let myVert = "down";
 // Then created circleLeft to actually get the value of that element.
 // It returned as a string,
 // So, I used .slice to delete the "px" from the end of the string
@@ -16,8 +17,10 @@ let circleTop = Number(
   window.getComputedStyle(theCircle).getPropertyValue("top").slice(0, 2)
 );
 let circleWidth = Number(
-  window.getComputedStyle(theCircle).getPropertyValue("width").slice(0, 2)
+  window.getComputedStyle(theCircle).getPropertyValue("width").slice(0, 3)
 );
+console.log(circleWidth);
+
 // console.log(`circleLeft is : ${circleLeft}`);
 // console.log(circleTop);
 
@@ -29,26 +32,30 @@ function runMoving() {
 ///do this shit when I strike an edge
 
 function moving() {
-  if (myDirection === "left") {
+  if (myHorz === "left") {
     moveLeft();
-  } else if (myDirection === "right") {
+  } else if (myHorz === "right") {
     moveRight();
-  } else if (myDirection === "up") {
+  }
+
+  if (myVert === "up") {
     moveUp();
-  } else if (myDirection === "down") {
+  } else if (myVert === "down") {
     moveDown();
   }
 
   if (circleLeft >= window.innerWidth - circleWidth) {
-    myDirection = "right";
+    myHorz = "right";
     makeColor();
   } else if (circleLeft <= 0) {
-    myDirection = "left";
+    myHorz = "left";
     makeColor();
   } else if (circleTop <= 0) {
-    myDirection = "down";
+    myVert = "down";
+    makeColor();
   } else if (circleTop >= window.innerHeight - circleWidth) {
-    myDirection = "up";
+    myVert = "up";
+    makeColor();
   }
 
   document.getElementById("circle").style.left = `${circleLeft}px`;
@@ -103,6 +110,6 @@ function makeColor() {
   }
   document.getElementById(
     "circle"
-  ).style.backgroundColor = `rgb(${cRed}, ${cBlue}, ${cGreen})`;
+  ).style.fill = `rgb(${cRed}, ${cBlue}, ${cGreen})`;
   // console.log(`rgb(${cRed}, ${cBlue}, ${cGreen})`);
 }
