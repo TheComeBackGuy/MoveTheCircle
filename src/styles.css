@@ -9,7 +9,8 @@ body {
   position: relative;
   width: 150px;
   height: 150px;
-  background: rgb(182, 125, 125);
+  background-color: hsl(0, 90%, 0%);
+  transition: background-color 2s ease;
   border-radius: 50%;
   top: 10px;
   left: 10px;
