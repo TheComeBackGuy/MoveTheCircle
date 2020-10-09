@@ -6,6 +6,10 @@ let speed = 1;
 let frameRate = 10;
 let myHorz = "left";
 let myVert = "down";
+let cHue = 1;
+let cSat = 100;
+let cLit = 0;
+
 // Then created circleLeft to actually get the value of that element.
 // It returned as a string,
 // So, I used .slice to delete the "px" from the end of the string
@@ -19,6 +23,9 @@ let circleTop = Number(
 let circleWidth = Number(
   window.getComputedStyle(theCircle).getPropertyValue("width").slice(0, 3)
 );
+let circleHeight = Number(
+  window.getComputedStyle(theCircle).getPropertyValue("height").slice(0, 3)
+);
 console.log(circleWidth);
 
 //////////////////////////////////\run the functions of "moving"
@@ -28,8 +35,8 @@ function runMoving() {
 
 function moving() {
   makeColor();
-  // console.log(cRed);
 
+  // console.log(cRed);
   //changes horizonal state
   if (myHorz === "left") {
     moveLeft();
@@ -50,14 +57,19 @@ function moving() {
     myHorz = "left";
   } else if (circleTop <= 0) {
     myVert = "down";
-  } else if (circleTop >= window.innerHeight - circleWidth) {
+  } else if (circleTop >= window.innerHeight - circleHeight) {
     myVert = "up";
   }
 
   //get circle properties to detect when we hit an edge
   document.getElementById("circle").style.left = `${circleLeft}px`;
   document.getElementById("circle").style.top = `${circleTop}px`;
+  document.getElementById(
+    "circle"
+  ).style.fill = `hsl(${cHue}, ${cSat}%, ${cLit}%)`;
 }
+
+// console.log("ypu: " + cHue);
 /////////////////////////////////\MOVEMENT FUNCTIONS
 
 function moveLeft() {
@@ -83,29 +95,19 @@ runMoving();
 ///////////////////////////////////////////////////////////////\COLOR STUFF
 // replaced RGB with HSL
 //realized you were cycling through hue
-let cHue = 0;
-let cSat = 100;
-let cLit = 60;
 
-/*
-new color generator that cycles through the hue
-if you console log the numbers, they're correct, but there's
-all sorts of weirdness.
-
--It reacts to the mouse being in the window.
---on click or movement in the window, it resets the color change 
--It immediately desaturates the color even though the nubers are right
-
--I still can't figure out how to change to svg color
---I see it's supposed to be style.fill but I just can't seem to get a result with that.  
-*/
 function makeColor() {
-  cHue++;
+  cHue += 0.1;
+  cLit += 0.25;
+  // console.log(cHue);
+
   if (cHue >= 360) {
     cHue = 0;
   }
+  if (cLit >= 60) {
+    cLit = 60;
+  }
   // console.log(`${cHue}, ${cSat}, ${cLit}`);
-  document.getElementById(
-    "circle"
-  ).style.backgroundColor = `hsl(${cHue}, ${cSat}%, ${cLit}%)`; ///lol, clit. took me 5mins to notice that
+  ///lol, clit. took me 5mins to notice that
+  // }
 }
